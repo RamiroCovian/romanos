@@ -1,2 +1,2 @@
 # romanos
-Repositorio de la primera Kata Bootcamp 17: Crear una clase numeros romanos
+Repositorio de la primera Kata Bc17: Crear una clase numeros romanos

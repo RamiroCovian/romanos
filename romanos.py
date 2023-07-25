@@ -48,37 +48,65 @@ def convertir_a_romano(numero):
     if not (0 < numero < 4000):
         return f"Error: El numero debe estar entre 1 y 3999 ({numero})"
 
-    millares = ["", "M", "MM", "MMM"]
-    centenas = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
-    decenas = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"]
-    unidades = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
-
     # descomposicion en millares, decenas, centenas y unidades
-    millar = numero // 1000
-    resto = numero % 1000
+    conversores = [
+        ["", "M", "MM", "MMM"],
+        ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"],
+        ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"],
+        ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+    ]
+    divisores = [1000, 100, 10, 1]
 
-    centena = resto // 100
-    resto = resto % 100
+    resultado = ""
+    contador = 0
 
-    decena = resto // 10
-    resto = resto % 10
+    for divisor in divisores:
+        cociente = numero // divisor
+        numero = numero % divisor
+        resultado = resultado + conversores[contador][cociente]
+        contador = contador + 1
 
-    unidad = resto
-    # RETO: podemos simplificar el proceso en lugar dde copiar/pegar las operaciones de division y modulo?
-
-    # mapear el cociente (diccionario)
-    # si hay resto, repetimos....
-    romano = millares[millar] + centenas[centena] + decenas[decena] + unidades[unidad]
-    print([romano])
-
-    return "TODO: convertir a romano"
+    return resultado
 
 
-print(convertir_a_romano(56))
-print(convertir_a_romano("lo que quiera"))
-print(convertir_a_romano(0))
-print(convertir_a_romano(4000))
-print(convertir_a_romano(-6))
-print(convertir_a_romano(3999))
-print(convertir_a_romano({}))
-print(convertir_a_romano([]))
+def romano_a_entero(romano):
+    """
+    MCXXIII +> 1123
+
+        -recorrer la cadena de entrada (romano) de izquierda a derecha
+        -para cada letra, obtenemos su valor como numero decimal
+        -vamos sumando los valores obtenidos
+        -cuando no quedan letras, el valor acumulado de la suma es el resultado
+
+        - buble for para recorrar las letras
+        PARA CADA LETRA:
+            -validar que la letra es validas como numero romano( I, V, X, L, C, D, M)
+    """
+
+    digitos_romanos = {
+        "I": 1,
+        "V": 5,
+        "X": 10,
+        "L": 50,
+        "C": 100,
+        "D": 500,
+        "M": 1000,
+    }
+
+    if not isinstance(romano, str):
+        return "ERROR: tiene que ser un numero romano en formato cadena de texto"
+
+    resultado = 0
+
+    for letra in romano:
+        if letra not in digitos_romanos:
+            return f"ERROR: {letra} no es un digito romano valido (I, V, X, L, C, D, M)"
+        resultado = resultado + digitos_romanos.get(letra)
+
+    return resultado
+
+
+errores = ["A", "", 3, ["X", "X", "I"]]
+pruebas = ["I", "MCXXIII", "VIII", "LVI"]
+for valor in pruebas:
+    print(romano_a_entero(valor))

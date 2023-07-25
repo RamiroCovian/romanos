@@ -105,6 +105,10 @@ def romano_a_entero(romano):
         actual = digitos_romanos.get(letra)
 
         if anterior < actual:
+            # comprobar que la resta es posible
+            # el orden de magnitud no es mayor de uno
+            if anterior > 0 and len(str(actual)) - len(str(anterior)) > 1:
+                return f"ERROR: resta no posible (ant: {anterior}, act: {actual})"
             # deshacer la suma (que hemos hecho antes)
             resultado = resultado - anterior
             # sumar el valor actual pero restando el valor anterior
@@ -118,6 +122,21 @@ def romano_a_entero(romano):
 
 
 errores = ["A", "", 3, ["X", "X", "I"]]
-pruebas = ["I", "MCXXIII", "VIII", "LVI", "IV"]
+pruebas = [
+    "I",
+    "MCXXIII",
+    "VIII",
+    "LVI",
+    "IV",
+    "IX",
+    "XC",
+    "ID",
+    "CM",
+    "IC",
+    "XM",
+    "IM",
+    "VC",
+    "VX",
+]
 for valor in pruebas:
     print(romano_a_entero(valor))

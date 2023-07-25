@@ -97,16 +97,27 @@ def romano_a_entero(romano):
         return "ERROR: tiene que ser un numero romano en formato cadena de texto"
 
     resultado = 0
+    anterior = 0
 
     for letra in romano:
         if letra not in digitos_romanos:
             return f"ERROR: {letra} no es un digito romano valido (I, V, X, L, C, D, M)"
-        resultado = resultado + digitos_romanos.get(letra)
+        actual = digitos_romanos.get(letra)
+
+        if anterior < actual:
+            # deshacer la suma (que hemos hecho antes)
+            resultado = resultado - anterior
+            # sumar el valor actual pero restando el valor anterior
+            resultado = resultado + (actual - anterior)
+        else:
+            resultado = resultado + actual
+
+        anterior = actual
 
     return resultado
 
 
 errores = ["A", "", 3, ["X", "X", "I"]]
-pruebas = ["I", "MCXXIII", "VIII", "LVI"]
+pruebas = ["I", "MCXXIII", "VIII", "LVI", "IV"]
 for valor in pruebas:
     print(romano_a_entero(valor))

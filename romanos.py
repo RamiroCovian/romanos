@@ -144,24 +144,24 @@ def romano_a_entero(romano):
     return resultado
 
 
-errores = ["A", "", 3, ["X", "X", "I"]]
-pruebas = [
-    "I",
-    "MCXXIII",
-    "VIII",
-    "LVI",
-    "IV",
-    "IX",
-    "ID",
-    "CM",
-    "IC",
-    "XM",
-    "IM",
-    "VC",
-    "A",
-]
-for valor in pruebas:
-    try:
-        print(romano_a_entero(valor))
-    except Exception as ex:
-        print("Hey!", ex)
+# errores = ["A", "", 3, ["X", "X", "I"]]
+# pruebas = [
+#     "I",
+#     "MCXXIII",
+#     "VIII",
+#     "LVI",
+#     "IV",
+#     "IX",
+#     "ID",
+#     "CM",
+#     "IC",
+#     "XM",
+#     "IM",
+#     "VC",
+#     "A",
+# ]
+# for valor in pruebas:
+#     try:
+#         print(romano_a_entero(valor))
+#     except Exception as ex:
+#         print("Hey!", ex)

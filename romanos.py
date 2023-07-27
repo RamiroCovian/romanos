@@ -71,18 +71,27 @@ def convertir_a_romano(numero):
 
 def romano_a_entero(romano):
     """
-    MCXXIII +> 1123
+    MCXXIII => 1123
 
-        -recorrer la cadena de entrada (romano) de izquierda a derecha
-        -para cada letra, obtenemos su valor como numero decimal
-        -vamos sumando los valores obtenidos
-        -cuando no quedan letras, el valor acumulado de la suma es el resultado
+        - recorrer la cadena de entrada (romano) de izquierda a derecha
+        - para cada letra, obtenemos su valor como número decimal
+        - vamos sumando los valores obtenidos
+        - cuando no quedan letras, el valor acumulado de la suma es el resultado
 
-        - buble for para recorrar las letras
-        PARA CADA LETRA:
-            -validar que la letra es validas como numero romano( I, V, X, L, C, D, M)
+        - bucle for para recorrer las letras
+        - Para cada letra:
+            - validar que la letra es válidas como número romano (I, V, X, L, C, D, M)
+
+    IV / VI  --->  comparar el valor de los dos dígitos
+
+    IX, DCIV
+
+    letra
+    D           --- 500
+    C           --- 100 + 500 = 600
+    I           --- 1 + 600 = 601
+    V           --- [601 - 1] + (5 - 1) = 604
     """
-
     digitos_romanos = {
         "I": 1,
         "V": 5,
@@ -94,21 +103,35 @@ def romano_a_entero(romano):
     }
 
     if not isinstance(romano, str):
-        return "ERROR: tiene que ser un numero romano en formato cadena de texto"
+        raise TypeError(
+            "ERROR: tiene que ser un numero romano en formato cadena de texto"
+        )
 
     resultado = 0
     anterior = 0
+    letra_igual = 0
 
     for letra in romano:
         if letra not in digitos_romanos:
-            return f"ERROR: {letra} no es un digito romano valido (I, V, X, L, C, D, M)"
+            raise ValueError(
+                f"ERROR: {letra} no es un digito romano valido (I, V, X, L, C, D, M)"
+            )
         actual = digitos_romanos.get(letra)
+        # leo que las letra actual no sea igual que la anterior mas de 3 veces
+        if actual == anterior:
+            letra_igual += 1
+        else:
+            letra_igual = 0
+        if letra_igual == 3:
+            return f"ERROR: Numero no valido: La letra {letra} se encuentra cuatro veces seguidas."
 
         if anterior < actual:
             # comprobar que la resta es posible
             # el orden de magnitud no es mayor de uno
             if anterior > 0 and len(str(actual)) - len(str(anterior)) > 1:
-                return f"ERROR: resta no posible (ant: {anterior}, act: {actual})"
+                raise ValueError(
+                    f"ERROR: resta no posible (ant: {anterior}, act: {actual})"
+                )
             # deshacer la suma (que hemos hecho antes)
             resultado = resultado - anterior
             # sumar el valor actual pero restando el valor anterior
@@ -129,14 +152,16 @@ pruebas = [
     "LVI",
     "IV",
     "IX",
-    "XC",
     "ID",
     "CM",
     "IC",
     "XM",
     "IM",
     "VC",
-    "VX",
+    "A",
 ]
 for valor in pruebas:
-    print(romano_a_entero(valor))
+    try:
+        print(romano_a_entero(valor))
+    except Exception as ex:
+        print("Hey!", ex)

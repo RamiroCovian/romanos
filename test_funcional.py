@@ -46,11 +46,19 @@ class RomanosTest(unittest.TestCase):
         self.assertIsInstance("II", str)
         self.assertIsInstance("XI", str)
 
-    # def test_letras_no_validas(self):
-    #     self.assertIn(10, )
-
-    # self.assertRaises(TypeError, romano_a_entero, "II2")
-    # self.assertRaises(TypeError, romano_a_entero, int)
+    def test_letras_no_validas(self):
+        self.assertIn(
+            "L",
+            {
+                "I": 1,
+                "V": 5,
+                "X": 10,
+                "L": 50,
+                "C": 100,
+                "D": 500,
+                "M": 1000,
+            },
+        )
 
 
 # TODO: crear un caso de uso para comprobar que el parametro es una cadena

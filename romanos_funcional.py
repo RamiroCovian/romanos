@@ -111,6 +111,7 @@ def romano_a_entero(romano):
     anterior = 0
     letra_igual = 0
     super_anterior = 0
+    excepcion_multiplos = [1, 10, 100, 1000]
 
     for letra in romano:
         if letra not in digitos_romanos:
@@ -118,15 +119,25 @@ def romano_a_entero(romano):
                 f"ERROR: {letra} no es un digito romano valido (I, V, X, L, C, D, M)"
             )
         actual = digitos_romanos.get(letra)
+
         # leo que las letra actual no sea igual que la anterior mas de 3 veces
         if actual == anterior:
             letra_igual += 1
         else:
             letra_igual = 0
         if letra_igual == 3:
-            return f"ERROR: Numero no valido: La letra {letra} se encuentra cuatro veces seguidas."
+            raise ValueError(
+                f"ERROR: Numero no valido: La letra {letra} se encuentra cuatro veces seguidas."
+            )
 
-        if anterior < actual:
+        if (
+            0 < anterior < actual
+        ):  ######## AGREGUE EL 0 PARA EVITAR UN ERROR EN EL TEST LINEA:8
+            # comprobar que no haya resta de miltiplos de 5
+            if (
+                not (anterior % actual) in excepcion_multiplos
+            ):  # Si el multiplo no esta en la excepcion , da error
+                raise ValueError(f"ERROR: no se pueden restar multiplos de 5")
             # comprobar que la resta es posible
             # el orden de magnitud no es mayor de uno
             if anterior > 0 and len(str(actual)) - len(str(anterior)) > 1:
@@ -148,5 +159,5 @@ def romano_a_entero(romano):
 
     return resultado
 
-
-print(romano_a_entero("IVX"))
+    # if anterior % actual:
+    #     raise ValueError(f"ERROR: no se pueden restar multiplos de 5")

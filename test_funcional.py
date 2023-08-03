@@ -1,5 +1,5 @@
 import unittest
-from romanos_funcional import romano_a_entero
+from romanos_funcional import romano_a_entero, convertir_a_romano
 
 
 class RomanosTest(unittest.TestCase):
@@ -30,6 +30,27 @@ class RomanosTest(unittest.TestCase):
         """
         self.assertRaises(ValueError, romano_a_entero, "IIV")
         self.assertRaises(ValueError, romano_a_entero, "IVX")
+
+    def test_no_mas_de_tres_simbolos_consecutivos(self):
+        self.assertRaises(ValueError, romano_a_entero, "IIII")
+        self.assertRaises(ValueError, romano_a_entero, "XIIII")
+        self.assertRaises(ValueError, romano_a_entero, "CCCC")
+
+    def test_no_resta_multiplos_de_cinco(self):
+        self.assertRaises(ValueError, romano_a_entero, "VX")
+        self.assertRaises(ValueError, romano_a_entero, "VXX")
+        self.assertRaises(ValueError, romano_a_entero, "LC")
+        self.assertRaises(ValueError, romano_a_entero, "DM")
+
+    def test_es_cadena(self):
+        self.assertIsInstance("II", str)
+        self.assertIsInstance("XI", str)
+
+    # def test_letras_no_validas(self):
+    #     self.assertIn(10, )
+
+    # self.assertRaises(TypeError, romano_a_entero, "II2")
+    # self.assertRaises(TypeError, romano_a_entero, int)
 
 
 # TODO: crear un caso de uso para comprobar que el parametro es una cadena
